@@ -1,0 +1,253 @@
+features 
+    Kubernetes_manifest
+        mandatory
+            ApiVersion
+                mandatory
+                    Group {abstract} 
+                        alternative
+                            GROUP_admission_registration
+                            GROUP_apiextensions
+                            GROUP_apiregistration
+                            GROUP_apps
+                            GROUP_authentication
+                            GROUP_authorization
+                            GROUP_autoscaling
+                            GROUP_batch
+                            GROUP_certificates
+                            GROUP_coordination
+                            GROUP_core
+                            GROUP_discovery
+                            GROUP_events
+                            GROUP_flowcontrol_apiserver
+                            GROUP_internal_apiserver
+                            GROUP_networking
+                            GROUP_node
+                            GROUP_policy
+                            GROUP_rbac_authorization
+                            GROUP_resource
+                            GROUP_scheduling
+                            GROUP_storage
+                    Version {abstract}
+                        alternative
+                            VERSION_v1
+                            VERSION_v1beta1
+                            VERSION_v1beta3
+                            VERSION_v1alpha1
+                            VERSION_v1alpha2
+                            VERSION_v2
+            Kind
+                alternative
+                    Workloads_APIs {abstract}
+                        alternative
+                            KIND_Container
+                            KIND_CronJob
+                            KIND_DaemonSet
+                            KIND_Deployment
+                            KIND_Job
+                            KIND_Pod
+                            KIND_ReplicaSet
+                            KIND_ReplicationController
+                            KIND_StatefullSet
+                    Service_APIs {abstract}
+                        alternative
+                            KIND_Endpoints
+                            KIND_EndpintSlice
+                            KIND_Ingress
+                            KIND_IngressClass
+                            KIND_Service
+                    Confing_and_storage_APIs {abstract}
+                        alternative
+                            KIND_ConfigMap
+                            KIND_CSIDriver
+                            KIND_CSINode
+                            KIND_Secret
+                            KIND_PersistentVolumeClaim
+                            KIND_StorageClass
+                            KIND_CSIStorageCapacity
+                            KIND_Volume
+                            KIND_VolumeAttachment
+                            KIND_VolumeAttributesClass
+                    Metadata_APIs {abstract}
+                        alternative
+                            KIND_ClusterTrustBundle
+                            KIND_ControllerRevision
+                            KIND_CustomerResourceDefinition
+                            KIND_Event
+                            KIND_LimitRange
+                            KIND_HorizontalPodAutoscaler
+                            KIND_MutatingWebhookConfiguration
+                            KIND_ValidatingWebhookConfiguration
+                            KIND_PodSchedulingContext
+                            KIND_PodTemplate
+                            KIND_PodDisruptionBudget
+                            KIND_PriorityClass
+                            KIND_ResourceClaim
+                            KIND_ResourceClaimParameters
+                            KIND_ResourceSlice
+                            KIND_ResourceClaimTemplate
+                            KIND_ResourceClass
+                            KIND_ValidatingAdmissionPolicy
+                            KIND_ValidatingAdmissionPolicyBinding
+                    Cluster_APIs {abstract}
+                        alternative
+                            KIND_APIService
+                            KIND_Binding
+                            KIND_CertificateSigningRequest
+                            KIND_ClusterRole
+                            KIND_ClusterRoleBinding
+                            KIND_ComponentStatus
+                            KIND_FlowSchema
+                            KIND_IPAddress
+                            KIND_Lease
+                            KIND_LocalSubjectAccessReview
+                            KIND_Namespace
+                            KIND_Node
+                            KIND_PersistentVolume
+                            KIND_PriorityLevelConfiguration
+                            KIND_ResourceQuota
+                            KIND_Role
+                            KIND_RoleBinding
+                            KIND_RuntimeClass
+                            KIND_SelfSubjectAccessReview
+                            KIND_SelfSubjectReview
+                            KIND_SelfSubjectRulesReview
+                            KIND_ServiceAccount
+                            KIND_ServiceCIDR
+                            KIND_StorageVersion
+                            KIND_SubjectAccessReview
+                            KIND_TokenRequest
+                            KIND_TokenReview
+                            KIND_NetworkPolicy
+        optional
+            Metadata
+                mandatory
+                    METADATA_name
+                optional
+                    METADATA_uid
+                    METADATA_namespace
+                    METADATA_cluster
+                    METADATA_labels 
+                        mandatory
+                            LABELS_key
+                            LABELS_value
+                    METADATA_annotations 
+                        mandatory
+                            ANNOTATIONS_key
+                            ANNOTATIONS_value
+            Spec
+                optional
+                    SPEC_Replicas
+                    SPEC_Selector
+                        optional
+                            SELECTOR_key
+                            SELECTOR_value
+                        or 
+                            SELECTOR_matchLabels 
+                                mandatory 
+                                    SELECTOR_matchLabels_key
+                                    SELECTOR_matchLabels_value
+                            SELECTOR_matchExpressions 
+                                mandatory   
+                                    SELECTOR_matchExpressions_key
+                                    SELECTOR_matchExpressions_values 
+                                        mandatory
+                                            SELECTOR_matchExpressions_value
+                                    SELECTOR_matchExpressions_operator
+                                        alternative
+                                            OPERATOR_in
+                                            OPERATOR_notIn
+                                            OPERATOR_exist
+                                            OPERATOR_doesNotExist
+                                            OPERATOR_gt
+                                            OPERATOR_lt
+                    SPEC_Template 
+                        optional
+                            TEMPLATE_Metadata
+                                optional
+                                    TEMPLATE_METADATA_labels 
+                                        mandatory
+                                            TEMPLATE_METADATA_LABELS_key
+                                            TEMPLATE_METADATA_LABELS_value
+                            TEMPLATE_Spec 
+                                optional
+                                    TEMPLATE_SPEC_Containers 
+                                        mandatory    
+                                            CONTAINER_image
+                                        optional     
+                                            CONTAINER_name  
+                                            CONTAINER_ports 
+                                                mandatory   
+                                                    CONTAINER_PORTS_containerPort
+                                                optional 
+                                                    CONTAINER_PORTS_name 
+                                            CONTAINER_env 
+                                                mandatory
+                                                    CONTAINER_ENV_name
+                                                    CONTAINER_ENV_value
+                                            CONTAINER_resources
+                                                or
+                                                    RESOURCES_request
+                                                        mandatory
+                                                            REQUEST_cpu
+                                                            REQUEST_memory
+                                                    RESOURCES_limits
+                                                        mandatory
+                                                            LIMITS_cpu
+                                                            LIMITS_memory
+                                            CONTAINER_VolumeMounts 
+                                                mandatory   
+                                                    VOLUMEMOUNTS_mountPath
+                                                    VOLUMEMOUNTS_name
+                                    TEMPLATE_SPEC_Volumes 
+                                                mandatory   
+                                                    VOLUMES_name
+                                                    VOLUMES_emptyDir
+                    SPEC_Type
+                        alternative   
+                            TYPE_ExternalName
+                            TYPE_ClusterIP
+                            TYPE_NodePort
+                            TYPE_LoadBalancer
+                    SPEC_Ports 
+                        mandatory   
+                            SPEC_PORTS_port
+                        optional
+                            SPEC_PORTS_name
+                            SPEC_PORTS_protocol
+                                alternative
+                                    PORTS_PROTOCOL_tcp
+                                    PORTS_PROTOCOL_udp
+                                    PORTS_PROTOCOL_sctp
+                            SPEC_PORTS_nodePort
+                            SPEC_PORTS_targetPort
+constraints
+    (GROUP_apiextensions | GROUP_apiregistration | GROUP_apps | GROUP_authorization | GROUP_batch | GROUP_coordination | GROUP_core | GROUP_discovery | GROUP_events | GROUP_node | GROUP_policy | GROUP_rbac_authorization | GROUP_scheduling) => VERSION_v1
+    (GROUP_admission_registration | GROUP_authentication) => VERSION_v1 | VERSION_v1beta1 | VERSION_v1alpha1
+    (GROUP_certificates | GROUP_internal_apiserver | GROUP_networking | GROUP_storage) => VERSION_v1 | VERSION_v1alpha1 
+    GROUP_autoscaling => VERSION_v2 | VERSION_v1 
+    GROUP_flowcontrol_apiserver => VERSION_v1beta3 | VERSION_v1
+    GROUP_resource => VERSION_v1alpha2 | VERSION_v1
+    (KIND_DaemonSet | KIND_Deployment | KIND_ReplicaSet | KIND_StatefullSet | KIND_ControllerRevision) => GROUP_apps
+    (KIND_Container | KIND_Pod | KIND_ReplicationController | KIND_Service | KIND_Endpoints | KIND_ConfigMap | KIND_Secret | KIND_PersistentVolumeClaim | KIND_Volume | KIND_LimitRange | KIND_PodTemplate | KIND_Binding | KIND_ComponentStatus | KIND_Namespace | KIND_Node | KIND_PersistentVolume | KIND_ResourceQuota | KIND_ServiceAccount) => GROUP_core
+    (KIND_CronJob | KIND_Job) => GROUP_batch
+    KIND_EndpintSlice => GROUP_discovery
+    (KIND_Ingress | KIND_IngressClass | KIND_IPAddress | KIND_ServiceCIDR | KIND_NetworkPolicy) => GROUP_networking
+    (KIND_CSIDriver | KIND_CSINode | KIND_StorageClass | KIND_CSIStorageCapacity | KIND_VolumeAttachment | KIND_VolumeAttributesClass) => GROUP_storage
+    (KIND_ClusterTrustBundle | KIND_CertificateSigningRequest) => GROUP_certificates
+    KIND_CustomerResourceDefinition => GROUP_apiextensions
+    KIND_Event => GROUP_events
+    KIND_HorizontalPodAutoscaler => GROUP_autoscaling
+    (KIND_MutatingWebhookConfiguration | KIND_ValidatingWebhookConfiguration | KIND_ValidatingAdmissionPolicy | KIND_ValidatingAdmissionPolicyBinding) => GROUP_admission_registration
+    (KIND_PodSchedulingContext | KIND_ResourceClaim | KIND_ResourceClaimTemplate | KIND_ResourceClass | KIND_ResourceClaimParameters | KIND_ResourceSlice) => GROUP_resource
+    KIND_PodDisruptionBudget => GROUP_policy
+    KIND_PriorityClass => GROUP_scheduling
+    KIND_APIService => GROUP_apiregistration
+    (KIND_LocalSubjectAccessReview | KIND_SelfSubjectAccessReview | KIND_SelfSubjectRulesReview | KIND_SubjectAccessReview) => GROUP_authorization
+    (KIND_FlowSchema | KIND_PriorityLevelConfiguration) => GROUP_flowcontrol_apiserver
+    KIND_Lease => GROUP_coordination
+    KIND_RuntimeClass => GROUP_node
+    (KIND_SelfSubjectReview | KIND_TokenRequest | KIND_TokenReview) => GROUP_authentication
+    KIND_StorageVersion => GROUP_internal_apiserver
+    (KIND_ClusterRole | KIND_ClusterRoleBinding | KIND_Role | KIND_RoleBinding) => GROUP_rbac_authorization
+    SPEC_Type => KIND_Service
+    (TYPE_NodePort | TYPE_LoadBalancer) => (SPEC_PORTS_nodePort)

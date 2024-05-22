@@ -1,0 +1,144 @@
+features
+	Dockerfile
+		mandatory
+			FROM 
+				mandatory
+					FROM_image 
+				optional
+					FROM_platform 
+					FROM_name 
+				alternative
+					FROM_tag 
+					FROM_digest 
+		optional
+			LABEL
+				mandatory
+					LABEL_key
+					LABEL_value
+			ENV 
+				mandatory
+					ENV_key
+					ENV_value
+			ADD 
+				mandatory
+					ADD_source
+					ADD_destiny
+				alternative
+					ADD_keep_git_dir 
+					ADD_checksum 
+					ADD_link
+					ADD_exclude 
+					ADD_chown //SOLO PARA SISTEMAS LINUX
+						optional
+							ADD_CHOWN_group 
+							ADD_chmod //SOLO PARA SISTEMAS LINUX
+			COPY 
+				mandatory
+					COPY_source
+					COPY_destiny
+				alternative
+					COPY_from
+					COPY_link
+					COPY_parents
+					COPY_exclude
+					COPY_chown //SOLO PARA SISTEMAS LINUX
+						optional
+							COPY_CHOWN_group
+							COPY_chmod //SOLO PARA SISTEMAS LINUX
+			EXPOSE 
+				optional
+					EXPOSE_protocol {abstract}
+						or
+							PROTOCOL_udp
+							PROTOCOL_tcp
+			WORKDIR 			
+			VOLUME 
+			RUN 
+				optional
+					mount 
+						mandatory
+							MOUNT_option {abstract}
+								or
+									MOUNT_target
+										mandatory 
+											MOUNT_TARGET_value
+									MOUNT_source
+										mandatory 
+											MOUNT_SOURCE_value
+									MOUNT_from 
+										mandatory 
+											MOUNT_FROM_value
+									MOUNT_readwrite
+									MOUNT_id
+										mandatory
+											MOUNT_ID_value
+									MOUNT_readonly 
+									MOUNT_mode
+										mandatory 
+											MOUNT_MODE_value
+									MOUNT_uid 
+										mandatory 
+											MOUNT_UID_value
+									MOUNT_gid 
+										mandatory 
+											MOUNT_GID_value
+									MOUNT_size 
+										mandatory
+											MOUNT_SIZE_value
+									MOUNT_required 
+									MOUNT_sharing 
+										alternative
+											MOUNT_SHARING_shared 
+											MOUNT_SHARING_private 
+											MOUNT_SHARING_locked 
+							MOUNT_type {abstract}
+								alternative
+									Mount_Type_bind
+									Mount_Type_cache
+									Mount_Type_tmpfs
+									Mount_Type_secret
+									Mount_Type_ssh
+					network
+						alternative
+							NETWORK_default
+							NETWORK_none
+							NETWORK_host
+				 	security 
+						alternative
+							SECURITY_sandbox
+							SECURITY_insecure
+			ARG 
+				mandatory
+					ARG_name
+					ARG_value
+			CMD
+				optional
+					CMD_param1
+					CMD_param2
+			ENTRYPOINT
+				optional
+					ENTRYPOINT_param1
+					ENTRYPOINT_param2
+			USER
+				optional
+					USER_group
+			ONBUILD
+			STOPSIGNAL
+			HEALTHCHECK
+				alternative
+					HEALTHCHECK_none
+					HEALTHCHECK_options {abstract}
+						mandatory
+							HEALTHCHECK_cmdCommand
+						optional
+							HEALTHCHECK_interval
+							HEALTHCHECK_timeout
+							HEALTHCHECK_startPeriod
+							HEALTHCHECK_startInterval
+							HEALTHCHECK_retries
+			SHELL
+constraints
+	Mount_Type_bind => (MOUNT_target | MOUNT_source | MOUNT_from | MOUNT_readwrite)
+	Mount_Type_cache => (MOUNT_id | MOUNT_target | MOUNT_readonly | MOUNT_sharing | MOUNT_from | MOUNT_source | MOUNT_mode | MOUNT_uid | MOUNT_gid)
+	Mount_Type_tmpfs => (MOUNT_target | MOUNT_size)
+	(Mount_Type_secret | Mount_Type_ssh) => (MOUNT_id | MOUNT_target | MOUNT_required | MOUNT_mode | MOUNT_uid | MOUNT_gid)

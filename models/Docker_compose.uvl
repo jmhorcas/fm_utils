@@ -1,0 +1,24 @@
+features
+    Docker_compose
+        optional
+            VERSION
+                mandatory
+                    VERSION_ver
+                optional
+                    VERSION_name
+            SERVICES
+                mandatory
+                    SERVICE_name
+                    SERVICE_image
+                optional
+                    Build
+                    Deploy
+                        optional
+                            DEPLOY_endpointMode
+                                alternative
+                                    ENDPOINTMODE_vip
+                                    ENDPOINTMODE_dnsrr
+            NETWORKS
+            VOLUMES
+            CONFIGS
+            SECRETS
